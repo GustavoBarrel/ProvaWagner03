@@ -8,7 +8,11 @@ var cors = require('cors')
 
 let prisma = new PrismaClient()
 
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
+  credentials: true,
+}));
 app.use(express.json());
 
 
