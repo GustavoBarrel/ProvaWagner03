@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [resposta, setresposta] = useState('')
+
   const [usuario, setUsuario] = useState({
     nome: '',
     email: '',
@@ -8,25 +10,12 @@ function App() {
     cnpj: '',
     senha: '',
   });
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
 
-    try {
-      const response = await fetch('localhost:3600/feed', {
-        method: 'GET',
-      });
+    fetch("http://localhost:3600/feed").then(response => {setresposta(response)})
+}, [])
+console.log(resposta)
 
-      if (!response.ok) {
-        throw new Error('Erro ao obter dados');
-      }
-
-      const data = await response.json();
-      console.log('Dados obtidos com sucesso:', data);
-    } catch (error) {
-      console.error('Erro ao obter dados:', error.message);
-    }
-  };
-  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUsuario((prevUsuario) => ({
@@ -56,7 +45,7 @@ function App() {
           <label>Senha:</label>
           <input type="password" name="senha" value={usuario.senha} onChange={handleChange} />
 
-          <button type="button" onClick={handleSubmit}>
+          <button type="submit" onClick={useEffect}>
             Criar Usuário
           </button>
         </form>
