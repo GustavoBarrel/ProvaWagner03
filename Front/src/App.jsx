@@ -8,25 +8,22 @@ function App() {
     cnpj: '',
     senha: '',
   });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:3500/feed', {
+      const response = await fetch('localhost:3600/feed', {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Dados recebidos:', data);
-        // Faça o que for necessário com os dados recebidos
-      } else {
-        console.error('Erro ao fazer a solicitação:', response.status);
+
+      if (!response.ok) {
+        throw new Error('Erro ao obter dados');
       }
+
+      const data = await response.json();
+      console.log('Dados obtidos com sucesso:', data);
     } catch (error) {
-      console.error('Erro ao fazer a solicitação:', error);
+      console.error('Erro ao obter dados:', error.message);
     }
   };
   

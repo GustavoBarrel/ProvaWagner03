@@ -2,23 +2,18 @@
 const { Prisma, PrismaClient } = require('@prisma/client')
 const express = require('express')
 const app = express()
-const port = 3500
+const port = 3600
 var cors = require('cors')
 
 
 let prisma = new PrismaClient()
 
-app.use(cors({
-  origin: '*',
-  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
-  credentials: true,
-}));
 app.use(express.json());
 
 
-app.get('/feed',cors(), async (req, res) => {// fetch no localcost na porta 3500/feed
+app.get('/feed', async (req, res) => {// fetch no localcost na porta 3500/feed
     const posts = await prisma.UsuarisHotelaria.findMany()
-    res.json(posts)
+    res.status(200).send(posts)
   })
 
 app.post('/post', async (req, res) => {
